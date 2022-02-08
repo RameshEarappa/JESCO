@@ -21,7 +21,7 @@ report 50102 "Jesco Sales-Proforma Invoice"
             column(Cust_add1; Cust.Address) { }
             column(Cust_add2; Cust."Address 2") { }
             column(Cust_Post_Code; Cust."Post Code") { }
-            column(Cust_Country; Cust."Country/Region Code") { }
+            column(Cust_Country; CountryRegion.Name) { } //Cust."Country/Region Code") { }
             column(Cust_VatRegNo; Cust."VAT Registration No.") { }
             //**********************Customer Details*************************
             //**********************Header Details*************************
@@ -32,6 +32,7 @@ report 50102 "Jesco Sales-Proforma Invoice"
             column(External_Document_No_; "External Document No.") { }
             column(Order_No_; "Prepayment No.") { }
             column(Order_Date; "Order Date") { }
+            column(LPO_Date; "LPO Date") { }
             //**********************Header Details*************************
             //**********************Footer Details*************************
             column(CompInfo_Name; CompanyInfo.Name) { }
@@ -139,7 +140,7 @@ report 50102 "Jesco Sales-Proforma Invoice"
                         TotalAmountInWords := TotalVATAmountWords[1] + ' AND ' + DecimalValueInWords[1] + ' ONLY';
                     end;
                 end else begin
-
+                    PrepaymentVATAmount := 0;
                     PrepaymentVATAmount := TotalVatAmt * "Prepayment %" / 100;
                     if PrepaymentVATAmount <> 0 then begin
                         Clear(DecimalValue);
@@ -152,6 +153,7 @@ report 50102 "Jesco Sales-Proforma Invoice"
                         TotalVATAmountInWords := TotalVATAmountWords[1] + ' AND ' + DecimalValueInWords[1] + ' ONLY';
                     end;
                     CalcFields("Amount Including VAT");
+                    PrepaymentTotalAmount := 0;
                     PrepaymentTotalAmount := "Amount Including VAT" * "Prepayment %" / 100;
                     if PrepaymentTotalAmount <> 0 then begin
                         Clear(DecimalValue);
@@ -165,6 +167,7 @@ report 50102 "Jesco Sales-Proforma Invoice"
                     end;
 
                 end;
+                BankDetailsAvailable := false;
                 if "Direct Debit Mandate ID" <> '' then begin
                     BankDetailsAvailable := true;
                     if SepaDirectDebt.GET("Direct Debit Mandate ID") then begin
@@ -179,6 +182,8 @@ report 50102 "Jesco Sales-Proforma Invoice"
                     end;
                 end;
                 if PaymentTerms.Get("Sales Header"."Payment Terms Code") then;
+                Clear(CountryRegion);
+                if CountryRegion.Get(Cust."Country/Region Code") then;
             end;
 
             trigger OnPreDataItem()
@@ -267,5 +272,6 @@ report 50102 "Jesco Sales-Proforma Invoice"
         SepaDirectDebt: Record "SEPA Direct Debit Mandate";
         CustBankAcc: Record "Customer Bank Account";
         PaymentTerms: Record "Payment Terms";
+        CountryRegion: Record "Country/Region";
 
 }

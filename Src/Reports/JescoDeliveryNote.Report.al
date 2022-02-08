@@ -14,6 +14,7 @@ report 50103 "Jesco Delivery Note"
             RequestFilterHeading = 'Posted Sales Shipment';
 
             //**********************Customer Details*************************
+            column(ShippingVisible; ShippingVisible) { }
             column(Page_Lbl; PageLbl) { }
             column(DocumentTitle_Lbl; DelLbl) { }
             column(ShowTitle; ShowTitle) { }
@@ -21,8 +22,15 @@ report 50103 "Jesco Delivery Note"
             column(Cust_add1; Cust.Address) { }
             column(Cust_add2; Cust."Address 2") { }
             column(Cust_Post_Code; Cust."Post Code") { }
-            column(Cust_Country; Cust."Country/Region Code") { }
+            column(Cust_Country; CountryRegion.Name) { } //Cust."Country/Region Code") { }
             column(Cust_VatRegNo; Cust."VAT Registration No.") { }
+            column(Ship_to_Name; "Ship-to Name") { }
+            column(Ship_to_Address; "Ship-to Address") { }
+            column(Ship_to_Address_2; "Ship-to Address 2") { }
+            column(Ship_to_City; "Ship-to City") { }
+            column(Ship_to_Post_Code; "Ship-to Post Code") { }
+            column(Ship_to_County; "Ship-to County") { }
+            column(Ship_to_Country_Region_Code; "Ship-to Country/Region Code") { }
             //**********************Customer Details*************************
             //**********************Header Details*************************
             column(VAT_Registration_No_; "VAT Registration No.") { }
@@ -57,19 +65,33 @@ report 50103 "Jesco Delivery Note"
                 DataItemTableView = SORTING("Document No.", "Line No.");
 
                 column(SrNo; SrNo) { }
+                column(No_Item; "No.") { }
+                column(Type_LineNumber; Format(Type.AsInteger())) { }
                 column(Quantity; Quantity) { }
                 column(Unit_of_Measure; "Unit of Measure") { }
                 column(Description; Description) { }
                 trigger OnAfterGetRecord()
                 begin
-                    if Quantity <> 0 then
-                        SrNo += 1;
+                    if Type = Type::Item then begin
+                        if Quantity <> 0 then
+                            SrNo += 1;
+                    end;
                 end;
+
+                trigger OnPreDataItem()
+                var
+                    myInt: Integer;
+                begin
+                    SetFilter(Type, '<>%1', Type::"G/L Account");
+                end;
+
             }
             trigger OnAfterGetRecord()
             begin
                 SrNo := 0;
                 if Cust.Get("Sell-to Customer No.") then;
+                Clear(CountryRegion);
+                if CountryRegion.Get(Cust."Country/Region Code") then;
             end;
 
             trigger OnPreDataItem()
@@ -78,6 +100,11 @@ report 50103 "Jesco Delivery Note"
                     ShowTitle := 'Packing List'
                 else
                     ShowTitle := 'Delivery Note';
+
+                // if ShippingVisible then
+                //     ShippingAddr := true
+                // else
+                //     ShippingAddr := false;
             end;
         }
     }
@@ -93,6 +120,11 @@ report 50103 "Jesco Delivery Note"
                     {
                         ApplicationArea = All;
                         Caption = 'Packing List';
+                    }
+                    field(ShippingVisible; ShippingVisible)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Shipping Address';
                     }
                 }
             }
@@ -138,4 +170,7 @@ report 50103 "Jesco Delivery Note"
         DelLbl: Label 'Delivery Note';
         PackingList: Boolean;
         ShowTitle: Text;
+        CountryRegion: Record "Country/Region";
+        ShippingVisible: Boolean;
+    // ShippingAddr: Boolean;
 }

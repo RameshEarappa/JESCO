@@ -20,7 +20,7 @@ report 50100 "Jesco Sales-Tax Invoice"
             column(Cust_add1; Cust.Address) { }
             column(Cust_add2; Cust."Address 2") { }
             column(Cust_Post_Code; Cust."Post Code") { }
-            column(Cust_Country; Cust."Country/Region Code") { }
+            column(Cust_Country; CountryRegion.Name) { } //Cust."Country/Region Code") { }
             column(Cust_VatRegNo; Cust."VAT Registration No.") { }
             //**********************Customer Details*************************
             //**********************Header Details*************************
@@ -199,6 +199,8 @@ report 50100 "Jesco Sales-Tax Invoice"
                     if CurrencyCode <> 'AED' then
                         AmountLCY := CustLedgEntry."Sales (LCY)";
                 end;
+                Clear(CountryRegion);
+                if CountryRegion.Get(Cust."Country/Region Code") then;
             end;
 
             trigger OnPreDataItem()
@@ -274,4 +276,5 @@ report 50100 "Jesco Sales-Tax Invoice"
         AmountLCY: Decimal;
         TotalInvAmt: Decimal;
         TotalInvDiscAmt: Decimal;
+        CountryRegion: Record "Country/Region";
 }
