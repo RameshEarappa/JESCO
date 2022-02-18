@@ -72,6 +72,8 @@ report 50100 "Jesco Sales-Tax Invoice"
             column(SetListRowVisibility; SetListRowVisibility) { }
             column(Issueing_Bank; "Issueing Bank") { }
             column(SalesLCY; AmountLCY) { }
+            column(VatEnteriesAmount; VatEnteriesAmount) { }
+            column(ShippingVisible; ShippingVisible) { }
             dataitem("Sales Invoice Line"; "Sales Invoice Line")
             {
                 DataItemLink = "Document No." = FIELD("No.");
@@ -105,8 +107,10 @@ report 50100 "Jesco Sales-Tax Invoice"
                 begin
                     Clear(Taxpayable);
                     Clear(Amt);
-                    if Type <> Type::" " then
-                        SrNo += 1;
+                    if Type <> Type::" " then begin
+                        if Quantity <> 0 then
+                            SrNo += 1;
+                    end;
 
                     //Amt := Quantity * "Unit Price";//7MAY2021
                     Clear(Amt);
@@ -141,6 +145,7 @@ report 50100 "Jesco Sales-Tax Invoice"
             trigger OnAfterGetRecord()
             Var
                 SalesInvLineL: Record "Sales Invoice Line";
+                VatEntryL: Record "VAT Entry";
             begin
                 Clear(TotalVatAmt);
                 Clear(ShipmentMethodG);
@@ -179,33 +184,57 @@ report 50100 "Jesco Sales-Tax Invoice"
                 if PaymentTerms.Get("Sales Invoice Header"."Payment Terms Code") then;
 
                 SalesInvLineL.SetRange("Document No.", "Sales Invoice Header"."No.");
-                if SalesInvLineL.FindFirst() then begin
-                    if SalesInvLineL.FindSet() then
-                        repeat
-                            if SalesInvLineL.Quantity < 0 then
-                                SetListRowVisibility := true;
-                        until SalesInvLineL.Next() = 0;
-                end;
+                SalesInvLineL.SetRange("Prepayment Line", true);
+                if SalesInvLineL.FindFirst() then
+                    SetListRowVisibility := true;
+
                 if "Sales Invoice Header"."Currency Code" <> '' then
                     CurrencyCode := "Sales Invoice Header"."Currency Code"
                 else
                     CurrencyCode := GLsetupL."LCY Code";
 
+                AmountLCY := 0;
                 CustLedgEntry.SetCurrentKey("Document No.");
                 CustLedgEntry.SetRange("Document No.", "No.");
                 CustLedgEntry.SetRange("Document Type", CustLedgEntry."Document Type"::Invoice);
                 CustLedgEntry.SetRange("Customer No.", "Bill-to Customer No.");
                 if CustLedgEntry.FindFirst then begin
+                    CustLedgEntry.CalcFields("Amount (LCY)");
                     if CurrencyCode <> 'AED' then
-                        AmountLCY := CustLedgEntry."Sales (LCY)";
+                        AmountLCY := CustLedgEntry."Amount (LCY)";
                 end;
                 Clear(CountryRegion);
                 if CountryRegion.Get(Cust."Country/Region Code") then;
+
+                Clear(VatEntryL);
+                VatEnteriesAmount := 0;
+                VatEntryL.SetRange("Document No.", "No.");
+                if VatEntryL.FindSet() then
+                    repeat
+                        VatEnteriesAmount += VatEntryL.Amount;
+                    until VatEntryL.Next() = 0;
             end;
 
             trigger OnPreDataItem()
             begin
             end;
+        }
+    }
+    requestpage
+    {
+        layout
+        {
+            area(Content)
+            {
+                group(GroupName)
+                {
+                    field(ShippingVisible; ShippingVisible)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Shipping Address';
+                    }
+                }
+            }
         }
     }
     labels
@@ -277,4 +306,6 @@ report 50100 "Jesco Sales-Tax Invoice"
         TotalInvAmt: Decimal;
         TotalInvDiscAmt: Decimal;
         CountryRegion: Record "Country/Region";
+        VatEnteriesAmount: Decimal;
+        ShippingVisible: Boolean;
 }

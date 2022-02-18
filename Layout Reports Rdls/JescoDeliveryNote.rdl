@@ -24,7 +24,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>11.84046cm</Height>
+                  <Height>12.47547cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -551,17 +551,21 @@
                                     <TablixMembers>
                                       <TablixMember>
                                         <Visibility>
-                                          <Hidden>true</Hidden>
+                                          <Hidden>=IIF(Fields!Type_LineNumber.Value =0,FALSE,TRUE)</Hidden>
                                         </Visibility>
                                       </TablixMember>
-                                      <TablixMember />
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>=IIF(Fields!Type_LineNumber.Value &gt;0,FALSE,TRUE) or IIF(Fields!Quantity.Value &gt;0,FALSE,TRUE)</Hidden>
+                                        </Visibility>
+                                      </TablixMember>
                                     </TablixMembers>
                                   </TablixMember>
                                 </TablixMembers>
                               </TablixRowHierarchy>
                               <RepeatRowHeaders>true</RepeatRowHeaders>
                               <DataSetName>DataSet_Result</DataSetName>
-                              <Top>2.24445in</Top>
+                              <Top>2.36945in</Top>
                               <Left>0.01057in</Left>
                               <Height>0.43751in</Height>
                               <Width>7.80881in</Width>
@@ -2309,7 +2313,7 @@
                                 </Tablix>
                               </ReportItems>
                               <KeepTogether>true</KeepTogether>
-                              <Top>8.1057cm</Top>
+                              <Top>8.7407cm</Top>
                               <Left>0.01097cm</Left>
                               <Height>3.73477cm</Height>
                               <Width>19.82831cm</Width>
@@ -2941,20 +2945,6 @@
                                                       <FontSize>8pt</FontSize>
                                                     </Style>
                                                   </TextRun>
-                                                  <TextRun>
-                                                    <Value>, </Value>
-                                                    <Style>
-                                                      <FontFamily>Segoe UI</FontFamily>
-                                                      <FontSize>8pt</FontSize>
-                                                    </Style>
-                                                  </TextRun>
-                                                  <TextRun>
-                                                    <Value>=First(Fields!Cust_Country.Value, "DataSet_Result")</Value>
-                                                    <Style>
-                                                      <FontFamily>Segoe UI</FontFamily>
-                                                      <FontSize>8pt</FontSize>
-                                                    </Style>
-                                                  </TextRun>
                                                 </TextRuns>
                                                 <Style />
                                               </Paragraph>
@@ -3038,6 +3028,112 @@
                                               </Paragraph>
                                             </Paragraphs>
                                             <rd:DefaultName>CompInfo_Postcode</rd:DefaultName>
+                                            <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
+                                              <PaddingLeft>5pt</PaddingLeft>
+                                              <PaddingRight>5pt</PaddingRight>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.38806cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="Textbox25">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>Country Name - </Value>
+                                                    <Style>
+                                                      <FontFamily>Segoe UI</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value>=First(Fields!Cust_Country.Value, "DataSet_Result")</Value>
+                                                    <Style>
+                                                      <FontFamily>Segoe UI</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>Textbox25</rd:DefaultName>
+                                            <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
+                                              <PaddingLeft>5pt</PaddingLeft>
+                                              <PaddingRight>5pt</PaddingRight>
+                                            </Style>
+                                          </Textbox>
+                                          <ColSpan>2</ColSpan>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell />
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="Textbox28">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value />
+                                                    <Style>
+                                                      <FontFamily>Segoe UI</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>Textbox28</rd:DefaultName>
+                                            <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
+                                              <PaddingLeft>5pt</PaddingLeft>
+                                              <PaddingRight>5pt</PaddingRight>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="Textbox29">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value />
+                                                    <Style>
+                                                      <FontFamily>Segoe UI</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Right</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>Textbox29</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Style>None</Style>
@@ -3949,7 +4045,16 @@
                                   <TablixMember />
                                   <TablixMember />
                                   <TablixMember />
-                                  <TablixMember />
+                                  <TablixMember>
+                                    <Visibility>
+                                      <Hidden>=Fields!Cust_Post_Code.Value =""</Hidden>
+                                    </Visibility>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <Visibility>
+                                      <Hidden>=Fields!Cust_Country.Value =""</Hidden>
+                                    </Visibility>
+                                  </TablixMember>
                                   <TablixMember />
                                   <TablixMember />
                                   <TablixMember />
@@ -3962,7 +4067,7 @@
                               <DataSetName>DataSet_Result</DataSetName>
                               <Top>0.03175cm</Top>
                               <Left>0.01097cm</Left>
-                              <Height>5.46866cm</Height>
+                              <Height>5.85672cm</Height>
                               <Width>19.85023cm</Width>
                               <ZIndex>2</ZIndex>
                               <Style>
@@ -4087,7 +4192,7 @@
                                 </Tablix>
                               </ReportItems>
                               <KeepTogether>true</KeepTogether>
-                              <Top>6.81956cm</Top>
+                              <Top>7.45456cm</Top>
                               <Height>1.10975cm</Height>
                               <Width>19.8771cm</Width>
                               <ZIndex>3</ZIndex>
@@ -4134,7 +4239,7 @@
             <DataSetName>DataSet_Result</DataSetName>
             <Top>0.0635cm</Top>
             <Left>0.02611cm</Left>
-            <Height>11.84046cm</Height>
+            <Height>12.47547cm</Height>
             <Width>19.8771cm</Width>
             <Style>
               <Border>
@@ -4449,7 +4554,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>4.75605in</Top>
+            <Top>5.00605in</Top>
             <Left>0.03175cm</Left>
             <Height>0.83555in</Height>
             <Width>7.8236in</Width>
@@ -4464,7 +4569,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>14.20266cm</Height>
+        <Height>14.83766cm</Height>
         <Style />
       </Body>
       <Width>19.90369cm</Width>

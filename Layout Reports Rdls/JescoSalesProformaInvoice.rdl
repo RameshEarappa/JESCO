@@ -3923,20 +3923,6 @@
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
-                                <TextRun>
-                                  <Value>, </Value>
-                                  <Style>
-                                    <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=First(Fields!Cust_Country.Value, "DataSet_Result")</Value>
-                                  <Style>
-                                    <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
                               </TextRuns>
                               <Style>
                                 <TextAlign>Left</TextAlign>
@@ -3970,22 +3956,14 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Parameters!TRNLbl.Value</Value>
-                                  <Style>
-                                    <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value xml:space="preserve"> </Value>
+                                  <Value>Country Name - </Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=First(Fields!Cust_VatRegNo.Value, "DataSet_Result")</Value>
+                                  <Value>=First(Fields!Cust_Country.Value, "DataSet_Result")</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4024,7 +4002,22 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Parameters!TRNLbl.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value xml:space="preserve"> </Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=First(Fields!Cust_VatRegNo.Value, "DataSet_Result")</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4133,13 +4126,21 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=Fields!Cust_Post_Code.Value =""</Hidden>
+                  </Visibility>
+                </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=Fields!Cust_Country.Value=""</Hidden>
+                  </Visibility>
+                </TablixMember>
                 <TablixMember>
                   <Visibility>
                     <Hidden>=Fields!Cust_VatRegNo.Value =""</Hidden>
                   </Visibility>
                 </TablixMember>
-                <TablixMember />
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>

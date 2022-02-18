@@ -172,5 +172,4 @@ report 50103 "Jesco Delivery Note"
         ShowTitle: Text;
         CountryRegion: Record "Country/Region";
         ShippingVisible: Boolean;
-    // ShippingAddr: Boolean;
 }
