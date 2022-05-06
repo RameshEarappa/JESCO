@@ -29,6 +29,13 @@ pageextension 50114 SalesInvoice_Ext extends "Sales Invoice"
                 ApplicationArea = All;
             }
         }
+        addafter("LPO Date")
+        {
+            field("Prepayment No."; Rec."Prepayment No.")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions
